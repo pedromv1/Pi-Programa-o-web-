@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#16845b">
+  <meta name="description" content="Gasto Consciente: organize receitas, despesas, orçamento e metas financeiras em um só lugar.">
+  <title>Gasto Consciente | Gestão financeira pessoal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Menu principal">
+      <a class="brand" href="#dashboard" aria-label="Gasto Consciente, página inicial" data-page-link="dashboard">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M7 22.5 13.1 16l4.2 4.2L25 11.5" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.5 11.5H25v5.5" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="brand-copy"><strong>gasto<span>consciente</span></strong><small>suas finanças em equilíbrio</small></span>
+      </a>
+
+      <div class="nav-label">MENU PRINCIPAL</div>
+      <nav class="main-nav">
+        <button class="nav-item active" type="button" data-page="dashboard">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="11" width="7" height="10" rx="2"/><rect x="3" y="14" width="8" height="7" rx="2"/></svg>
+          <span>Visão geral</span>
+        </button>
+        <button class="nav-item" type="button" data-page="transactions">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/><circle cx="18" cy="17" r="2"/></svg>
+          <span>Movimentações</span>
+        </button>
+        <button class="nav-item" type="button" data-page="budget">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h16"/><path d="m7 15 4-4 3 2 5-7"/></svg>
+          <span>Orçamento</span>
+        </button>
+        <button class="nav-item" type="button" data-page="reports">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h16"/><rect x="7" y="11" width="3" height="5" rx="1"/><rect x="13" y="7" width="3" height="9" rx="1"/><rect x="19" y="9" width="2" height="7" rx="1"/></svg>
+          <span>Relatórios</span>
+        </button>
+        <button class="nav-item" type="button" data-page="goals">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+          <span>Metas financeiras</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-tip">
+          <span class="tip-icon">✦</span>
+          <strong>Pequenos passos, grandes conquistas.</strong>
+          <p>Registre seus gastos e acompanhe sua evolução todos os dias.</p>
+        </div>
+        <button class="nav-item settings-link" type="button" data-page="settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1a1.7 1.7 0 0 1-2.4 2.4l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.2a1.7 1.7 0 0 1-3.4 0v-.2a1.7 1.7 0 0 0-2.9-1.2l-.1.1a1.7 1.7 0 0 1-2.4-2.4l.1-.1a1.7 1.7 0 0 0-1.2-2.9H4a1.7 1.7 0 0 1 0-3.4h.2a1.7 1.7 0 0 0 1.2-2.9l-.1-.1a1.7 1.7 0 0 1 2.4-2.4l.1.1a1.7 1.7 0 0 0 2.9-1.2V2a1.7 1.7 0 0 1 3.4 0v.2a1.7 1.7 0 0 0 2.9 1.2l.1-.1a1.7 1.7 0 0 1 2.4 2.4l-.1.1a1.7 1.7 0 0 0 1.2 2.9h.2a1.7 1.7 0 0 1 0 3.4h-.2a1.7 1.7 0 0 0-1.2 2.9Z"/></svg>
+          <span>Configurações</span>
+        </button>
+        <div class="sidebar-user">
+          <div class="avatar" id="sidebarAvatar">GC</div>
+          <div class="user-meta"><strong id="sidebarUserName">Meu perfil</strong><span>Conta pessoal</span></div>
+          <span class="user-menu-dot">···</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </button>
+          <div>
+            <p class="eyebrow" id="topbarEyebrow">SEU RESUMO FINANCEIRO</p>
+            <h1 id="pageTitle">Visão geral</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <div class="today-label"><span class="status-dot"></span><span id="todayDate">Hoje</span></div>
+          <button class="button button-primary button-sm" type="button" data-open-transaction>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            <span>Nova movimentação</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="page-container">
+        <!-- DASHBOARD -->
+        <section class="page-section active" id="page-dashboard" data-section="dashboard">
+          <div class="welcome-row">
+            <div><h2>Olá, <span id="welcomeName">vamos cuidar do seu dinheiro?</span></h2><p>Acompanhe sua vida financeira e mantenha seus planos no caminho certo.</p></div>
+            <span class="demo-indicator" id="demoIndicator"><span></span> Dados de demonstração</span>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card balance-card">
+              <div class="stat-top"><span class="stat-label">Saldo atual</span><span class="stat-icon green-icon">↗</span></div>
+              <strong class="stat-value" id="statBalance">R$ 0,00</strong>
+              <div class="stat-foot"><span class="trend-pill positive">●</span><span>Resultado acumulado</span></div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-label">Receitas do mês</span><span class="stat-icon income-icon">↙</span></div>
+              <strong class="stat-value" id="statIncome">R$ 0,00</strong>
+              <div class="stat-foot"><span class="stat-foot-dot income-dot"></span><span>Entradas neste mês</span></div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-label">Despesas do mês</span><span class="stat-icon expense-icon">↗</span></div>
+              <strong class="stat-value" id="statExpense">R$ 0,00</strong>
+              <div class="stat-foot"><span class="stat-foot-dot expense-dot"></span><span>Saídas neste mês</span></div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-label">Economia do mês</span><span class="stat-icon saving-icon">✦</span></div>
+              <strong class="stat-value" id="statSavings">R$ 0,00</strong>
+              <div class="stat-foot"><span class="stat-foot-dot saving-dot"></span><span>Receitas menos despesas</span></div>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel chart-panel chart-wide">
+              <div class="panel-heading"><div><h3>Fluxo financeiro</h3><p>Receitas e despesas dos últimos 6 meses</p></div><span class="panel-chip">Últimos 6 meses</span></div>
+              <div class="chart-wrap chart-tall"><canvas id="cashflowChart" aria-label="Gráfico de receitas e despesas nos últimos seis meses" role="img"></canvas></div><div class="chart-legend dashboard-chart-legend"><div class="legend-item"><span class="legend-dot" style="background:#43b581"></span><span>Receitas</span></div><div class="legend-item"><span class="legend-dot" style="background:#ed9a91"></span><span>Despesas</span></div></div>
+            </article>
+            <article class="panel chart-panel">
+              <div class="panel-heading"><div><h3>Despesas por categoria</h3><p>Como seu dinheiro foi utilizado</p></div><button class="text-button" type="button" data-go-page="reports">Ver relatório <span>→</span></button></div>
+              <div class="chart-wrap chart-donut"><canvas id="categoryChart" aria-label="Gráfico de despesas por categoria" role="img"></canvas></div>
+              <div class="chart-legend" id="categoryLegend"></div>
+            </article>
+          </div>
+
+          <div class="dashboard-grid lower-grid">
+            <article class="panel recent-panel">
+              <div class="panel-heading"><div><h3>Movimentações recentes</h3><p>As últimas atualizações da sua conta</p></div><button class="text-button" type="button" data-go-page="transactions">Ver todas <span>→</span></button></div>
+              <div class="recent-list" id="recentTransactions"></div>
+            </article>
+            <article class="panel budget-summary-panel">
+              <div class="panel-heading"><div><h3>Seu orçamento</h3><p>Progresso do limite mensal</p></div><button class="more-button" type="button" data-go-page="budget" aria-label="Abrir orçamento">···</button></div>
+              <div class="budget-total-row"><strong id="dashboardBudgetSpent">R$ 0,00</strong><span>de <b id="dashboardBudgetLimit">R$ 0,00</b></span></div>
+              <div class="progress-track large-progress"><div class="progress-fill" id="dashboardBudgetProgress"></div></div>
+              <div class="budget-status-row"><span id="dashboardBudgetPercent">0% utilizado</span><span id="dashboardBudgetRemaining">R$ 0,00 disponível</span></div>
+              <div class="budget-tip" id="dashboardBudgetTip"><span>✦</span><p>Defina um limite mensal para acompanhar seus gastos com mais clareza.</p></div>
+              <button class="button button-outline button-full" type="button" data-go-page="budget">Gerenciar orçamento <span>→</span></button>
+            </article>
+          </div>
+        </section>
+
+        <!-- TRANSACTIONS -->
+        <section class="page-section" id="page-transactions" data-section="transactions" hidden>
+          <div class="section-heading"><div><h2>Movimentações</h2><p>Organize todas as entradas e saídas do seu dinheiro.</p></div><button class="button button-primary" type="button" data-open-transaction><span>＋</span> Adicionar movimentação</button></div>
+          <div class="transaction-summary stats-grid compact-stats">
+            <article class="stat-card"><span class="stat-label">Receitas filtradas</span><strong class="stat-value small-value income-text" id="filteredIncome">R$ 0,00</strong></article>
+            <article class="stat-card"><span class="stat-label">Despesas filtradas</span><strong class="stat-value small-value expense-text" id="filteredExpense">R$ 0,00</strong></article>
+            <article class="stat-card"><span class="stat-label">Resultado do filtro</span><strong class="stat-value small-value" id="filteredBalance">R$ 0,00</strong></article>
+          </div>
+          <article class="panel transactions-panel">
+            <div class="filter-bar">
+              <div class="filter-title"><h3>Histórico financeiro</h3><span id="transactionCount">0 registros</span></div>
+              <div class="filters">
+                <label class="filter-control"><span>Tipo</span><select id="filterType"><option value="all">Todos</option><option value="income">Receitas</option><option value="expense">Despesas</option></select></label>
+                <label class="filter-control"><span>Categoria</span><select id="filterCategory"><option value="all">Todas</option></select></label>
+                <label class="filter-control"><span>Mês</span><input type="month" id="filterMonth"></label>
+                <label class="filter-control"><span>De</span><input type="date" id="filterFrom"></label>
+                <label class="filter-control"><span>Até</span><input type="date" id="filterTo"></label>
+                <button class="button button-quiet button-sm" id="clearFilters" type="button">Limpar filtros</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Tipo</th><th class="align-right">Valor</th><th class="align-right">Ações</th></tr></thead>
+                <tbody id="transactionsTableBody"></tbody>
+              </table>
+            </div>
+            <div class="mobile-transaction-list" id="mobileTransactionsList"></div>
+            <div class="empty-state" id="transactionsEmpty" hidden><div class="empty-illustration">↗</div><h3>Nenhuma movimentação encontrada</h3><p>Cadastre uma entrada ou saída, ou ajuste os filtros para ver seus registros.</p><button class="button button-primary button-sm" type="button" data-open-transaction>Adicionar movimentação</button></div>
+          </article>
+        </section>
+
+        <!-- BUDGET -->
+        <section class="page-section" id="page-budget" data-section="budget" hidden>
+          <div class="section-heading"><div><h2>Planejamento de orçamento</h2><p>Defina limites realistas e acompanhe seus gastos ao longo do mês.</p></div><span class="month-badge" id="budgetMonthLabel">Mês atual</span></div>
+          <div class="budget-overview-grid">
+            <article class="panel budget-main-card"><div class="panel-heading"><div><h3>Orçamento mensal total</h3><p>Seu limite planejado para este mês</p></div><span class="stat-icon green-icon">◎</span></div>
+              <form id="budgetForm" class="budget-form"><label class="field-label" for="budgetTotalInput">Limite mensal (R$)</label><div class="input-with-prefix"><span>R$</span><input id="budgetTotalInput" name="total" type="number" min="0" step="0.01" placeholder="Ex.: 3000,00" required></div><button class="button button-primary" type="submit">Salvar orçamento</button></form>
+              <div class="budget-usage"><div class="budget-total-row"><strong id="budgetSpentMain">R$ 0,00</strong><span>de <b id="budgetLimitMain">R$ 0,00</b></span></div><div class="progress-track large-progress"><div class="progress-fill" id="budgetProgressMain"></div></div><div class="budget-status-row"><span id="budgetPercentMain">0% utilizado</span><span id="budgetAvailableMain">R$ 0,00 disponível</span></div><div class="alert-inline" id="budgetAlert" hidden></div></div>
+            </article>
+            <article class="panel budget-insight-card"><div class="insight-icon">✧</div><h3>Um orçamento que trabalha com você</h3><p>Planejar não significa deixar de aproveitar. É escolher com intenção onde seu dinheiro faz mais sentido.</p><div class="insight-separator"></div><div class="insight-stat"><span>Despesas neste mês</span><strong id="budgetInsightSpent">R$ 0,00</strong></div><div class="insight-stat"><span>Limite disponível</span><strong id="budgetInsightAvailable">R$ 0,00</strong></div></article>
+          </div>
+          <article class="panel category-budget-panel"><div class="panel-heading"><div><h3>Limites por categoria</h3><p>Distribua seu orçamento entre as áreas da sua rotina.</p></div><span class="panel-chip">Despesas</span></div><div class="category-budget-list" id="categoryBudgetList"></div><div class="budget-footnote">Os limites por categoria ajudam a identificar onde é possível ajustar seus hábitos. Eles não alteram o orçamento mensal total automaticamente.</div></article>
+        </section>
+
+        <!-- REPORTS -->
+        <section class="page-section" id="page-reports" data-section="reports" hidden>
+          <div class="section-heading"><div><h2>Relatórios financeiros</h2><p>Entenda seus hábitos e acompanhe sua evolução mês a mês.</p></div><label class="month-select-label">Período <input type="month" id="reportMonth"></label></div>
+          <div class="stats-grid report-stats">
+            <article class="stat-card"><span class="stat-label">Total de receitas</span><strong class="stat-value small-value income-text" id="reportIncome">R$ 0,00</strong><span class="stat-caption">No período selecionado</span></article>
+            <article class="stat-card"><span class="stat-label">Total de despesas</span><strong class="stat-value small-value expense-text" id="reportExpense">R$ 0,00</strong><span class="stat-caption">No período selecionado</span></article>
+            <article class="stat-card"><span class="stat-label">Saldo do período</span><strong class="stat-value small-value" id="reportBalance">R$ 0,00</strong><span class="stat-caption">Receitas menos despesas</span></article>
+          </div>
+          <div class="report-grid">
+            <article class="panel chart-panel"><div class="panel-heading"><div><h3>Comparativo mensal</h3><p>Receitas e despesas ao longo dos últimos 6 meses</p></div></div><div class="chart-wrap chart-report"><canvas id="reportCompareChart" aria-label="Comparativo mensal de receitas e despesas" role="img"></canvas></div></article>
+            <article class="panel chart-panel"><div class="panel-heading"><div><h3>Gastos por categoria</h3><p>Distribuição das despesas no período</p></div></div><div class="chart-wrap chart-report-donut"><canvas id="reportCategoryChart" aria-label="Despesas por categoria no período" role="img"></canvas></div><div class="chart-legend report-legend" id="reportCategoryLegend"></div></article>
+            <article class="panel chart-panel report-evolution"><div class="panel-heading"><div><h3>Evolução do resultado</h3><p>Quanto sobrou em cada mês</p></div></div><div class="chart-wrap chart-report"><canvas id="evolutionChart" aria-label="Evolução do resultado financeiro mensal" role="img"></canvas></div></article>
+          </div>
+          <div class="report-note"><span>ⓘ</span> Os relatórios consideram apenas as movimentações cadastradas. Dados de demonstração podem ser removidos em Configurações.</div>
+        </section>
+
+        <!-- GOALS -->
+        <section class="page-section" id="page-goals" data-section="goals" hidden>
+          <div class="section-heading"><div><h2>Metas financeiras</h2><p>Transforme seus planos em objetivos e acompanhe cada conquista.</p></div><button class="button button-primary" type="button" data-open-goal><span>＋</span> Nova meta</button></div>
+          <div class="goal-summary-grid">
+            <article class="panel goal-summary-card"><span class="summary-icon purple-icon">◎</span><div><span>Metas ativas</span><strong id="activeGoalsCount">0</strong></div></article>
+            <article class="panel goal-summary-card"><span class="summary-icon green-icon">↗</span><div><span>Total economizado</span><strong id="goalsSavedTotal">R$ 0,00</strong></div></article>
+            <article class="panel goal-summary-card"><span class="summary-icon orange-icon">♢</span><div><span>Objetivo total</span><strong id="goalsTargetTotal">R$ 0,00</strong></div></article>
+          </div>
+          <div class="goals-grid" id="goalsGrid"></div>
+          <div class="empty-state panel empty-panel" id="goalsEmpty" hidden><div class="empty-illustration">✧</div><h3>Todo grande plano começa com uma meta</h3><p>Crie seu primeiro objetivo e acompanhe seu progresso até chegar lá.</p><button class="button button-primary button-sm" type="button" data-open-goal>Criar minha primeira meta</button></div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="page-section" id="page-settings" data-section="settings" hidden>
+          <div class="section-heading"><div><h2>Configurações</h2><p>Personalize sua experiência no Gasto Consciente.</p></div></div>
+          <div class="settings-layout">
+            <article class="panel settings-card"><div class="settings-card-heading"><div class="settings-symbol">♙</div><div><h3>Perfil pessoal</h3><p>Como devemos chamar você?</p></div></div><form id="profileForm" class="settings-form"><label class="field-label" for="profileName">Nome</label><input class="text-input" id="profileName" maxlength="40" placeholder="Seu nome" required><label class="field-label" for="profileCurrency">Moeda</label><select class="text-input" id="profileCurrency"><option value="BRL">Real brasileiro (R$)</option></select><button class="button button-primary" type="submit">Salvar alterações</button></form></article>
+            <article class="panel settings-card"><div class="settings-card-heading"><div class="settings-symbol">♧</div><div><h3>Preferências</h3><p>Escolha como deseja receber avisos.</p></div></div><div class="setting-toggle-row"><div><strong>Notificações visuais</strong><p>Exibir alertas de orçamento e confirmações.</p></div><label class="switch"><input type="checkbox" id="notificationsToggle"><span class="switch-slider"></span></label></div><div class="setting-toggle-row"><div><strong>Dados de demonstração</strong><p>Exemplos pré-carregados para conhecer o sistema.</p></div><span class="demo-status" id="demoStatus">Ativos</span></div><button class="button button-outline" id="removeDemoData" type="button">Remover dados de exemplo</button></article>
+            <article class="panel settings-card danger-card"><div class="settings-card-heading"><div class="settings-symbol danger-symbol">!</div><div><h3>Zona de atenção</h3><p>Esta ação não poderá ser desfeita.</p></div></div><p class="danger-description">Limpe suas movimentações, metas e orçamento. Seu nome e suas preferências serão mantidos.</p><button class="button button-danger" id="clearAllData" type="button">Limpar dados financeiros</button></article>
+            <article class="settings-card about-card"><div class="about-mark">GC</div><div><strong>Gasto Consciente</strong><p>Gestão financeira pessoal · Projeto acadêmico</p><span>Seus dados ficam armazenados neste navegador.</span></div><span class="version-label">v1.0</span></article>
+          </div>
+        </section>
+      </div>
+      <footer class="app-footer"><span>Gasto Consciente</span><span>Organize hoje. Conquiste amanhã.</span></footer>
+    </main>
+  </div>
+
+  <!-- MODAL: NOVA MOVIMENTAÇÃO -->
+  <dialog class="app-dialog" id="transactionDialog">
+    <form id="transactionForm" method="dialog">
+      <div class="dialog-heading"><div><span class="dialog-kicker">CONTROLE FINANCEIRO</span><h2 id="transactionDialogTitle">Nova movimentação</h2><p>Preencha os dados para registrar sua movimentação.</p></div><button class="dialog-close" type="button" data-close-dialog="transactionDialog" aria-label="Fechar">×</button></div>
+      <input type="hidden" id="transactionId">
+      <div class="type-switch" role="group" aria-label="Tipo de movimentação"><button type="button" class="type-option active" data-transaction-type="expense">Despesa</button><button type="button" class="type-option" data-transaction-type="income">Receita</button></div>
+      <input type="hidden" id="transactionType" value="expense">
+      <div class="form-grid">
+        <label class="form-field full-field"><span>Descrição *</span><input class="text-input" id="transactionDescription" maxlength="80" placeholder="Ex.: Mercado da semana" required></label>
+        <label class="form-field"><span>Valor (R$) *</span><div class="input-with-prefix"><span>R$</span><input id="transactionAmount" type="number" min="0.01" step="0.01" placeholder="0,00" required></div></label>
+        <label class="form-field"><span>Categoria *</span><select class="text-input" id="transactionCategory" required></select></label>
+        <label class="form-field full-field"><span>Data *</span><input class="text-input" id="transactionDate" type="date" required></label>
+        <label class="form-field full-field"><span>Observações <small>(opcional)</small></span><textarea class="text-input" id="transactionNotes" rows="3" maxlength="300" placeholder="Adicione algum detalhe... "></textarea></label>
+      </div>
+      <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog="transactionDialog">Cancelar</button><button class="button button-primary" type="submit" id="saveTransactionButton">Salvar movimentação</button></div>
+    </form>
+  </dialog>
+
+  <!-- MODAL: META FINANCEIRA -->
+  <dialog class="app-dialog" id="goalDialog">
+    <form id="goalForm" method="dialog">
+      <div class="dialog-heading"><div><span class="dialog-kicker">PLANEJE SEU FUTURO</span><h2 id="goalDialogTitle">Nova meta financeira</h2><p>Defina um objetivo e acompanhe sua evolução.</p></div><button class="dialog-close" type="button" data-close-dialog="goalDialog" aria-label="Fechar">×</button></div>
+      <input type="hidden" id="goalId">
+      <div class="form-grid">
+        <label class="form-field full-field"><span>Nome da meta *</span><input class="text-input" id="goalName" maxlength="70" placeholder="Ex.: Viagem de férias" required></label>
+        <label class="form-field"><span>Valor desejado (R$) *</span><div class="input-with-prefix"><span>R$</span><input id="goalTarget" type="number" min="0.01" step="0.01" placeholder="0,00" required></div></label>
+        <label class="form-field"><span>Já economizado (R$)</span><div class="input-with-prefix"><span>R$</span><input id="goalSaved" type="number" min="0" step="0.01" value="0" placeholder="0,00"></div></label>
+        <label class="form-field full-field"><span>Prazo para alcançar *</span><input class="text-input" id="goalDeadline" type="date" required></label>
+      </div>
+      <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog="goalDialog">Cancelar</button><button class="button button-primary" type="submit">Salvar meta</button></div>
+    </form>
+  </dialog>
+
+  <!-- MODAL: ADICIONAR À META -->
+  <dialog class="app-dialog compact-dialog" id="contributeDialog">
+    <form id="contributeForm" method="dialog">
+      <div class="dialog-heading"><div><span class="dialog-kicker">MAIS PERTO DO OBJETIVO</span><h2>Adicionar economia</h2><p id="contributeGoalName">Atualize o valor guardado nesta meta.</p></div><button class="dialog-close" type="button" data-close-dialog="contributeDialog" aria-label="Fechar">×</button></div>
+      <input type="hidden" id="contributeGoalId">
+      <label class="form-field"><span>Quanto você economizou? (R$)</span><div class="input-with-prefix"><span>R$</span><input id="contributeAmount" type="number" min="0.01" step="0.01" placeholder="0,00" required></div></label>
+      <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog="contributeDialog">Cancelar</button><button class="button button-primary" type="submit">Adicionar valor</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

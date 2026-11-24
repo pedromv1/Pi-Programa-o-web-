@@ -8,7 +8,7 @@ Aplicação web de gestão financeira pessoal desenvolvida com HTML5, CSS3 e Jav
 
 - Dashboard com saldo acumulado, receitas, despesas, economia, gráficos e movimentações recentes.
 - Cadastro, edição, exclusão e filtros de receitas e despesas.
-- Orçamento mensal total e limites por categoria, com alertas em 80% e 100%.
+- Orçamento mensal total e limites por categoria.
 - Relatórios com comparação mensal, despesas por categoria e evolução do resultado.
 - Metas financeiras com prazo, progresso e registro de economias.
 - Perfil, preferências, remoção de dados de demonstração e limpeza dos dados financeiros.
